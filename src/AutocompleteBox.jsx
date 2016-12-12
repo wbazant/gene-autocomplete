@@ -1,11 +1,6 @@
 
 const React = require('react')
 const Autocomplete = require('react-autocomplete')
-const getStates = require('./Fakes.jsx').getStates
-const matchStateToTerm = require('./Fakes.jsx').matchStateToTerm
-const sortStates = require('./Fakes.jsx').sortStates
-const styles = require('./Fakes.jsx').styles
-const fakeRequest = require('./Fakes.jsx').fakeRequest
 require("./json-tag-editor.css")
 
 const AutocompleteBox = React.createClass({
