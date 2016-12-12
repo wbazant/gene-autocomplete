@@ -1,1 +1,1 @@
-module.exports = require(`./src/renderer.js`);
+module.exports = require(`./src/AutocompleteBox.jsx`);
