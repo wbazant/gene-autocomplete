@@ -15,74 +15,12 @@
 .gene-autocomplete .menu {
   background: #FFF none !important;
   border-radius: 4px;
-}
-.gene-autocomplete .menu ul {
   padding:0;
-  list-style: none inside none;
 }
 
-.gene-autocomplete .menu li {
+.gene-autocomplete .menu .menu-element {
   cursor: pointer;
   z-index: 600;
   padding: 6px;
   color: #4286f4;
-}
-
-.gene-autocomplete .menu li :hover{
-  background: gainsboro none !important;
-}
-
-/* core styles usually need no change */
-.json-tag-editor li {
-    overflow: hidden;
-    border: none !important;
-    margin: -2px 0 0 0;
-}
-
-
-
-.json-tag-editor div {
-    float: left;
-}
-
-.json-tag-editor .placeholder {
-    color: #bbb;
-}
-
-.json-tag-editor .json-tag-editor-spacer {
-    display:none;
-}
-
-
-
-/* hide IE10 "clear field" X */
-.json-tag-editor ::-ms-clear {
-    display: none;
-}
-
-/* jQuery UI autocomplete */
-.ui-autocomplete {
-    z-index: 600;
-    border-radius: 4px;
-    background: #FFF none !important;
-}
-
-.ui-autocomplete .ui-state-focus,
-.ui-autocomplete .ui-state-active {
-    color: #EB8F00;
-    font-weight: normal;
-    background: #E0EAF1 none !important;
-}
-
-.ui-autocomplete li {
-    border-radius: 4px;
-}
-
-.ui-autocomplete li {
-    font-size: 85%;
-}
-
-.ui-autocomplete li a {
-    border: none;
-    color: #46799B;
 }

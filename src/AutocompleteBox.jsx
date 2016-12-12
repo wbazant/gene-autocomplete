@@ -28,12 +28,12 @@ const AutocompleteBox = React.createClass({
   },
   _renderItem (item, isHighlighted) {
     return (
-      <li
+      <div
         className={"menu-element"}
+        style={isHighlighted ? {"background": "gainsboro", "color": "black"} : {}}
         key={item.value+""+item.category}
         id={item.value}
       >
-      <a>
       <span>
         {item.value}
       </span>
@@ -42,8 +42,7 @@ const AutocompleteBox = React.createClass({
           {item.category}
         </i>
       }
-      </a>
-      </li>
+      </div>
     )
   },
 
@@ -70,7 +69,7 @@ const AutocompleteBox = React.createClass({
                <div className="menu" style={{ }}>
                  {this.state.loading ? (
                    <div style={{padding: 6, float: "bottom"}}>Loading...</div>
-                 ) : <ul>{items}</ul>}
+                 ) : <div>{items}</div>}
                </div>
              )
            }}
