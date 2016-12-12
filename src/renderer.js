@@ -12,7 +12,10 @@ exports.render = function(options) {
 
     ReactDOM.render(
         React.createElement(
-            AutocompleteBox
+            AutocompleteBox,
+            {
+              suggesterUrlTemplate: options.suggesterUrlTemplate || "https://www.ebi.ac.uk/gxa/json/suggestions?query={0}&species="
+            }
         ),
         (typeof options.target === "string") ? document.getElementById(options.target) : options.target
     );

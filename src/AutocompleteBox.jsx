@@ -5,7 +5,7 @@ require("./json-tag-editor.css")
 
 const AutocompleteBox = React.createClass({
   propTypes: {
-    suggesterUrl : React.PropTypes.string.isRequired
+    suggesterUrlTemplate : React.PropTypes.string.isRequired
   },
   getInitialState () {
     return {
@@ -16,10 +16,22 @@ const AutocompleteBox = React.createClass({
   },
 
   _requestSuggestions (value) {
-    const fetched = [{"value":"REG3G","category":"symbol"},{"value":"REG4","category":"symbol"},{"value":"REG1A","category":"symbol"},{"value":"REG3A","category":"symbol"},{"value":"REG1B","category":"symbol"},{"value":"REG1CP","category":"symbol"},{"value":"Reg3b","category":"symbol"},{"value":"Reg3a","category":"symbol"},{"value":"Reg1a","category":"symbol"},{"value":"Reg3g","category":"symbol"},{"value":"Reg4","category":"symbol"},{"value":"Reg-5","category":"symbol"},{"value":"Reg-2","category":"symbol"},{"value":"REG","category":"symbol"},{"value":"regucalcin","category":"symbol"}]
-    setTimeout(() => {
-      this.setState({ currentSuggestions: fetched, loading: false })
-    }, 500)
+    if(this.state.loading){
+      let httpRequest = new XMLHttpRequest();
+      httpRequest.onload = (e) => {
+        const xhr = e.target;
+        let results;
+        if (xhr.responseType === 'json') {
+          results = xhr.response;
+        } else {
+          results = JSON.parse(xhr.responseText);
+        }
+        this.setState({ currentSuggestions: results, loading: false })
+      };
+      httpRequest.open('GET', this.props.suggesterUrlTemplate.replace(/\{0\}/, value), true);
+      httpRequest.responseType = 'json';
+      httpRequest.send();
+    }
   },
   _renderItem (item, isHighlighted) {
     return (
@@ -41,6 +53,10 @@ const AutocompleteBox = React.createClass({
     )
   },
 
+  _isTooShortToShowHints (value) {
+    return !value || value.length <3
+  },
+
   render () {
     return (
       <div className="small-12 columns">
@@ -56,15 +72,29 @@ const AutocompleteBox = React.createClass({
               this.setState({ value, currentSuggestions: [] })
             }}
             onChange={(event, value) => {
-              this.setState({ value, loading: true })
-              this._requestSuggestions(value)
+              if(this._isTooShortToShowHints(value)){
+                this.setState({value: value, loading: false})
+              } else {
+                this.setState({value: value, loading: true}, () => {
+                  this._requestSuggestions(value)
+                })
+              }
             }}
             renderMenu={(items, value, style) => {
               return (
                <div className="menu" style={{ }}>
-                 {this.state.loading ? (
-                   <div style={{padding: 6, float: "bottom"}}>Loading...</div>
-                 ) : <div>{items}</div>}
+                 {this._isTooShortToShowHints(value)
+                  ? false
+                  : this.state.loading
+                    ? (
+                      <div style={{padding: 6, float: "bottom"}}>
+                        Loading...
+                      </div>
+                    )
+                    : <div>
+                        {items}
+                      </div>
+                  }
                </div>
              )
            }}
