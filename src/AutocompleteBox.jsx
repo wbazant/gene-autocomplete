@@ -1,7 +1,7 @@
 
 const React = require('react')
 const Autocomplete = require('react-autocomplete')
-require("./json-tag-editor.css")
+require("./gene-autocomplete.css")
 
 const AutocompleteBox = React.createClass({
   propTypes: {
