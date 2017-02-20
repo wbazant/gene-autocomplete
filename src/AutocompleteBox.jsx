@@ -6,11 +6,12 @@ require("./gene-autocomplete.css")
 const AutocompleteBox = React.createClass({
   propTypes: {
     suggesterUrlTemplate : React.PropTypes.string.isRequired,
-    onGeneChosen: React.PropTypes.func.isRequired
+    onGeneChosen: React.PropTypes.func.isRequired,
+    value: React.PropTypes.string
   },
   getInitialState () {
     return {
-      value: '',
+      value: this.props.value || '',
       currentSuggestions: [],
       loading: false
     }
