@@ -1,6 +1,6 @@
 {
   "name": "gene-autocomplete",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Autocomplete with gene identifiers from Expression Atlas",
   "main": "index.js",
   "author": "atlas-developers@ebi.ac.uk",
