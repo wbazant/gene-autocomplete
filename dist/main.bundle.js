@@ -7,35 +7,37 @@ webpackJsonp_name_([1],{
 	"use strict";
 
 	var React = __webpack_require__(1);
-	var ReactDOM = __webpack_require__(272);
+	var ReactDOM = __webpack_require__(146);
 
 	//*------------------------------------------------------------------*
 
-	var AutocompleteBox = __webpack_require__(416);
+	var AutocompleteBox = __webpack_require__(455);
 
 	exports.render = function (options) {
 
 	    ReactDOM.render(React.createElement(AutocompleteBox, {
-	        suggesterUrlTemplate: options.suggesterUrlTemplate || "https://www.ebi.ac.uk/gxa/json/suggestions?query={0}&species="
+	        suggesterUrlTemplate: options.suggesterUrlTemplate || "https://www.ebi.ac.uk/gxa/json/suggestions?query={0}&species=",
+	        onGeneChosen: console.log
 	    }), typeof options.target === "string" ? document.getElementById(options.target) : options.target);
 	};
 
 /***/ },
 
-/***/ 416:
+/***/ 455:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var Autocomplete = __webpack_require__(411);
-	__webpack_require__(417);
+	var Autocomplete = __webpack_require__(450);
+	__webpack_require__(456);
 
 	var AutocompleteBox = React.createClass({
 	  displayName: 'AutocompleteBox',
 
 	  propTypes: {
-	    suggesterUrlTemplate: React.PropTypes.string.isRequired
+	    suggesterUrlTemplate: React.PropTypes.string.isRequired,
+	    onGeneChosen: React.PropTypes.func.isRequired
 	  },
 	  getInitialState: function getInitialState() {
 	    return {
@@ -93,53 +95,44 @@ webpackJsonp_name_([1],{
 
 	    return React.createElement(
 	      'div',
-	      { className: 'small-12 columns' },
-	      React.createElement(
-	        'label',
-	        null,
-	        'Gene, tissue or biological condition'
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'gene-autocomplete' },
-	        React.createElement(Autocomplete, {
-	          inputProps: { name: "Enter gene", id: "gene-autocomplete" },
-	          ref: 'autocomplete',
-	          value: this.state.value,
-	          items: this.state.currentSuggestions,
-	          getItemValue: function getItemValue(item) {
-	            return item.value;
-	          },
-	          onSelect: function onSelect(value, item) {
-	            _this2.setState({ value: value, currentSuggestions: [] });
-	          },
-	          onChange: function onChange(event, value) {
-	            if (_this2._isTooShortToShowHints(value)) {
-	              _this2.setState({ value: value, loading: false });
-	            } else {
-	              _this2.setState({ value: value, loading: true }, function () {
-	                _this2._requestSuggestions(value);
-	              });
-	            }
-	          },
-	          renderMenu: function renderMenu(items, value, style) {
-	            return React.createElement(
+	      { className: 'gene-autocomplete' },
+	      React.createElement(Autocomplete, {
+	        inputProps: { name: "Enter gene", id: "gene-autocomplete" },
+	        value: this.state.value,
+	        items: this.state.currentSuggestions,
+	        getItemValue: function getItemValue(item) {
+	          return item.value;
+	        },
+	        onSelect: function onSelect(value, item) {
+	          _this2.setState({ value: value, currentSuggestions: [] });
+	          _this2.props.onGeneChosen(_this2.state.value);
+	        },
+	        onChange: function onChange(event, value) {
+	          if (_this2._isTooShortToShowHints(value)) {
+	            _this2.setState({ value: value, loading: false });
+	          } else {
+	            _this2.setState({ value: value, loading: true }, function () {
+	              _this2._requestSuggestions(value);
+	            });
+	          }
+	        },
+	        renderMenu: function renderMenu(items, value, style) {
+	          return React.createElement(
+	            'div',
+	            { className: 'menu', style: {} },
+	            _this2._isTooShortToShowHints(value) ? false : _this2.state.loading ? React.createElement(
 	              'div',
-	              { className: 'menu', style: {} },
-	              _this2._isTooShortToShowHints(value) ? false : _this2.state.loading ? React.createElement(
-	                'div',
-	                { style: { padding: 6, float: "bottom" } },
-	                'Loading...'
-	              ) : React.createElement(
-	                'div',
-	                null,
-	                items
-	              )
-	            );
-	          },
-	          renderItem: this._renderItem
-	        })
-	      )
+	              { style: { padding: 6, float: "bottom" } },
+	              'Loading...'
+	            ) : React.createElement(
+	              'div',
+	              null,
+	              items
+	            )
+	          );
+	        },
+	        renderItem: this._renderItem
+	      })
 	    );
 	  }
 	});
@@ -148,16 +141,16 @@ webpackJsonp_name_([1],{
 
 /***/ },
 
-/***/ 417:
+/***/ 456:
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(418);
+	var content = __webpack_require__(457);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(420)(content, {});
+	var update = __webpack_require__(459)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -175,10 +168,10 @@ webpackJsonp_name_([1],{
 
 /***/ },
 
-/***/ 418:
+/***/ 457:
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(419)();
+	exports = module.exports = __webpack_require__(458)();
 	// imports
 
 
@@ -190,7 +183,7 @@ webpackJsonp_name_([1],{
 
 /***/ },
 
-/***/ 419:
+/***/ 458:
 /***/ function(module, exports) {
 
 	/*
@@ -247,7 +240,7 @@ webpackJsonp_name_([1],{
 
 /***/ },
 
-/***/ 420:
+/***/ 459:
 /***/ function(module, exports, __webpack_require__) {
 
 	/*

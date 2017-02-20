@@ -14,7 +14,8 @@ exports.render = function(options) {
         React.createElement(
             AutocompleteBox,
             {
-              suggesterUrlTemplate: options.suggesterUrlTemplate || "https://www.ebi.ac.uk/gxa/json/suggestions?query={0}&species="
+              suggesterUrlTemplate: options.suggesterUrlTemplate || "https://www.ebi.ac.uk/gxa/json/suggestions?query={0}&species=",
+              onGeneChosen: console.log
             }
         ),
         (typeof options.target === "string") ? document.getElementById(options.target) : options.target

@@ -5,7 +5,8 @@ require("./gene-autocomplete.css")
 
 const AutocompleteBox = React.createClass({
   propTypes: {
-    suggesterUrlTemplate : React.PropTypes.string.isRequired
+    suggesterUrlTemplate : React.PropTypes.string.isRequired,
+    onGeneChosen: React.PropTypes.func.isRequired
   },
   getInitialState () {
     return {
@@ -59,48 +60,45 @@ const AutocompleteBox = React.createClass({
 
   render () {
     return (
-      <div className="small-12 columns">
-        <label>Gene, tissue or biological condition</label>
-        <div className="gene-autocomplete">
-          <Autocomplete
-            inputProps={{name: "Enter gene", id: "gene-autocomplete"}}
-            ref="autocomplete"
-            value={this.state.value}
-            items={this.state.currentSuggestions}
-            getItemValue={(item) => item.value}
-            onSelect={(value, item) => {
-              this.setState({ value, currentSuggestions: [] })
-            }}
-            onChange={(event, value) => {
-              if(this._isTooShortToShowHints(value)){
-                this.setState({value: value, loading: false})
-              } else {
-                this.setState({value: value, loading: true}, () => {
-                  this._requestSuggestions(value)
-                })
-              }
-            }}
-            renderMenu={(items, value, style) => {
-              return (
-               <div className="menu" style={{ }}>
-                 {this._isTooShortToShowHints(value)
-                  ? false
-                  : this.state.loading
-                    ? (
-                      <div style={{padding: 6, float: "bottom"}}>
-                        Loading...
-                      </div>
-                    )
-                    : <div>
-                        {items}
-                      </div>
-                  }
-               </div>
-             )
-           }}
-            renderItem={this._renderItem}
-          />
-        </div>
+      <div className="gene-autocomplete">
+        <Autocomplete
+          inputProps={{name: "Enter gene", id: "gene-autocomplete"}}
+          value={this.state.value}
+          items={this.state.currentSuggestions}
+          getItemValue={(item) => item.value}
+          onSelect={(value, item) => {
+            this.setState({ value, currentSuggestions: [] })
+            this.props.onGeneChosen(this.state.value)
+          }}
+          onChange={(event, value) => {
+            if(this._isTooShortToShowHints(value)){
+              this.setState({value: value, loading: false})
+            } else {
+              this.setState({value: value, loading: true}, () => {
+                this._requestSuggestions(value)
+              })
+            }
+          }}
+          renderMenu={(items, value, style) => {
+            return (
+             <div className="menu" style={{ }}>
+               {this._isTooShortToShowHints(value)
+                ? false
+                : this.state.loading
+                  ? (
+                    <div style={{padding: 6, float: "bottom"}}>
+                      Loading...
+                    </div>
+                  )
+                  : <div>
+                      {items}
+                    </div>
+                }
+             </div>
+           )
+         }}
+          renderItem={this._renderItem}
+        />
       </div>
     )
   }
