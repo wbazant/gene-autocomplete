@@ -135,7 +135,7 @@ webpackJsonp_name_([1],{
 	        _react2.default.createElement(
 	          'button',
 	          {
-	            style: { fontSize: "1.5rem" },
+	            style: { fontSize: "1.5rem", top: "0.25rem" },
 	            className: 'close-button small',
 	            'aria-label': 'Close alert',
 	            type: 'button',
@@ -357,7 +357,7 @@ webpackJsonp_name_([1],{
 
 
 	// module
-	exports.push([module.id, ".list-with-autocomplete .list-element {\n  position:relative;\n  padding: 6px;\n  margin-top: 3px;\n  margin-bottom: 3px;\n  color:#007c82;\n  background: gainsboro;\n  font-size: larger;\n  font-weight: bolder;\n  text-align: center;\n  text-overflow: ellipsis;\n}\n\n\n.gene-autocomplete input {\n    text-overflow: ellipsis;\n    font-size: larger;\n    font-weight: bolder;\n    text-align: center;\n    color: #555;\n    background: #fff !important;\n    height: 2.4375rem;\n    width: 100%;\n    padding: 0.5rem;\n    border: 1px solid #cacaca;\n    margin: 0 0 1rem;\n    box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);\n}\n\n.gene-autocomplete.underEdit input {\n  color: #007c82;\n}\n\n.gene-autocomplete.geneWasChosen input {\n  color: #666;\n}\n\n.gene-autocomplete .menu {\n  background: #FFF none !important;\n  border-radius: 4px;\n  padding:0;\n}\n\n.gene-autocomplete .menu .menu-element {\n  cursor: pointer;\n  z-index: 600;\n  padding: 6px;\n  color: #007c82;\n}\n", ""]);
+	exports.push([module.id, ".list-with-autocomplete .list-element {\n  position:relative;\n  padding: 6px;\n  margin-top: 3px;\n  margin-bottom: 3px;\n  color:#007c82;\n  background: gainsboro;\n  text-align: center;\n  word-wrap: break-word;\n}\n\n\n.gene-autocomplete input {\n    text-overflow: ellipsis;\n    font-size: larger;\n    font-weight: bolder;\n    text-align: center;\n    color: #555;\n    background: #fff !important;\n    height: 2.4375rem;\n    width: 100%;\n    padding: 0.5rem;\n    border: 1px solid #cacaca;\n    margin: 0 0 1rem;\n    box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);\n}\n\n.gene-autocomplete.underEdit input {\n  color: #007c82;\n}\n\n.gene-autocomplete .menu {\n  background: #FFF none !important;\n  border-radius: 4px;\n  padding:0;\n}\n\n.gene-autocomplete .menu .menu-element {\n  cursor: pointer;\n  z-index: 600;\n  padding: 6px;\n  color: #007c82;\n}\n", ""]);
 
 	// exports
 
