@@ -6,19 +6,22 @@ webpackJsonp_name_([1],{
 
 	"use strict";
 
+	var _demo = __webpack_require__(455);
+
+	var _demo2 = _interopRequireDefault(_demo);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(146);
 
 	//*------------------------------------------------------------------*
 
-	var AutocompleteBox = __webpack_require__(455);
+	var __values__ = [];
 
 	exports.render = function (options) {
 
-	    ReactDOM.render(React.createElement(AutocompleteBox, {
-	        suggesterUrlTemplate: options.suggesterUrlTemplate || "https://www.ebi.ac.uk/gxa/json/suggestions?query={0}&species=",
-	        onGeneChosen: console.log
-	    }), typeof options.target === "string" ? document.getElementById(options.target) : options.target);
+	    ReactDOM.render(React.createElement(_demo2.default), typeof options.target === "string" ? document.getElementById(options.target) : options.target);
 	};
 
 /***/ },
@@ -28,30 +31,183 @@ webpackJsonp_name_([1],{
 
 	'use strict';
 
-	var React = __webpack_require__(1);
-	var Autocomplete = __webpack_require__(450);
-	__webpack_require__(456);
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 
-	var TRANSITIONS = {
-	  pristine: 1,
-	  underEdit: 2,
-	  fetchingSuggestion: 3,
-	  geneWasChosen: 4
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _ListWithAutocomplete = __webpack_require__(456);
+
+	var _ListWithAutocomplete2 = _interopRequireDefault(_ListWithAutocomplete);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Demo = function (_React$Component) {
+	  _inherits(Demo, _React$Component);
+
+	  function Demo(props) {
+	    _classCallCheck(this, Demo);
+
+	    var _this = _possibleConstructorReturn(this, (Demo.__proto__ || Object.getPrototypeOf(Demo)).call(this, props));
+
+	    _this.state = {
+	      values: []
+	    };
+	    return _this;
+	  }
+
+	  _createClass(Demo, [{
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      return _react2.default.createElement(_ListWithAutocomplete2.default, {
+	        suggesterUrlTemplate: "https://www.ebi.ac.uk/gxa/json/suggestions?query={0}&species=",
+	        values: this.state.values,
+	        onChangeValues: function onChangeValues(values) {
+	          console.log(values);
+	          _this2.setState({ values: values });
+	        } });
+	    }
+	  }]);
+
+	  return Demo;
+	}(_react2.default.Component);
+
+	exports.default = Demo;
+
+/***/ },
+
+/***/ 456:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _AutocompleteBox = __webpack_require__(457);
+
+	var _AutocompleteBox2 = _interopRequireDefault(_AutocompleteBox);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	__webpack_require__(458);
+
+	var ListWithAutocomplete = function ListWithAutocomplete(_ref) {
+	  var suggesterUrlTemplate = _ref.suggesterUrlTemplate,
+	      values = _ref.values,
+	      onChangeValues = _ref.onChangeValues;
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'list-with-autocomplete' },
+	    values.map(function (value) {
+	      return _react2.default.createElement(
+	        'div',
+	        {
+	          className: "list-element",
+	          key: value,
+	          id: value
+	        },
+	        _react2.default.createElement(
+	          'span',
+	          null,
+	          value
+	        ),
+	        _react2.default.createElement(
+	          'button',
+	          {
+	            style: { fontSize: "1.5rem" },
+	            className: 'close-button small',
+	            'aria-label': 'Close alert',
+	            type: 'button',
+	            onClick: function onClick() {
+	              onChangeValues(values.filter(function (v) {
+	                return v !== value;
+	              }));
+	            }
+	          },
+	          _react2.default.createElement(
+	            'span',
+	            { 'aria-hidden': 'true' },
+	            '\xD7'
+	          )
+	        )
+	      );
+	    }),
+	    _react2.default.createElement(_AutocompleteBox2.default, _extends({ suggesterUrlTemplate: suggesterUrlTemplate }, {
+	      valuesToSkipInSuggestions: values,
+	      onGeneChosen: function onGeneChosen(geneChosen) {
+	        return onChangeValues(values.concat([geneChosen]));
+	      }
+	    }))
+	  );
 	};
 
-	var AutocompleteBox = React.createClass({
+	ListWithAutocomplete.propTypes = {
+	  values: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.string.isRequired).isRequired,
+	  onChangeValues: _react2.default.PropTypes.func.isRequired,
+	  suggesterUrlTemplate: _react2.default.PropTypes.string.isRequired
+	};
+
+	exports.default = ListWithAutocomplete;
+
+/***/ },
+
+/***/ 457:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactAutocomplete = __webpack_require__(450);
+
+	var _reactAutocomplete2 = _interopRequireDefault(_reactAutocomplete);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	__webpack_require__(458);
+
+	var TRANSITIONS = {
+	  standBy: 1,
+	  underEdit: 2,
+	  fetchingSuggestion: 3
+	};
+
+	var AutocompleteBox = _react2.default.createClass({
 	  displayName: 'AutocompleteBox',
 
 	  propTypes: {
-	    suggesterUrlTemplate: React.PropTypes.string.isRequired,
-	    onGeneChosen: React.PropTypes.func.isRequired,
-	    value: React.PropTypes.string
+	    suggesterUrlTemplate: _react2.default.PropTypes.string.isRequired,
+	    onGeneChosen: _react2.default.PropTypes.func.isRequired,
+	    valuesToSkipInSuggestions: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.string.isRequired).isRequired
 	  },
 	  getInitialState: function getInitialState() {
 	    var value = this.props.value || '';
 	    return {
-	      value: value,
-	      currentTransition: value ? TRANSITIONS.geneWasChosen : TRANSITIONS.pristine,
+	      value: '',
+	      currentTransition: TRANSITIONS.standBy,
 	      currentSuggestions: []
 	    };
 	  },
@@ -68,7 +224,20 @@ webpackJsonp_name_([1],{
 	        } else {
 	          results = JSON.parse(xhr.responseText);
 	        }
-	        _this.setState({ currentSuggestions: results, currentTransition: TRANSITIONS.underEdit });
+	        _this.setState({ currentSuggestions: results.map(function (result) {
+	            return (
+	              /* The server also produces categories
+	                 skip them since the query is the same
+	              */
+	              result.value
+	            );
+	          }).filter(function (item) {
+	            return _this.props.valuesToSkipInSuggestions.indexOf(item) === -1;
+	          }).filter(function (item, ix, self) {
+	            return self.indexOf(item) == ix;
+	          }),
+
+	          currentTransition: TRANSITIONS.underEdit });
 	      };
 	      httpRequest.open('GET', this.props.suggesterUrlTemplate.replace(/\{0\}/, value), true);
 	      httpRequest.responseType = 'json';
@@ -76,23 +245,18 @@ webpackJsonp_name_([1],{
 	    }
 	  },
 	  _renderItem: function _renderItem(item, isHighlighted) {
-	    return React.createElement(
+	    return _react2.default.createElement(
 	      'div',
 	      {
 	        className: "menu-element",
 	        style: isHighlighted ? { "background": "#007c82", "color": "white" } : {},
-	        key: item.value + "" + item.category,
-	        id: item.value
+	        key: item,
+	        id: item
 	      },
-	      React.createElement(
+	      _react2.default.createElement(
 	        'span',
 	        null,
-	        item.value
-	      ),
-	      item.category && React.createElement(
-	        'i',
-	        { style: { float: "right" } },
-	        item.category
+	        item
 	      )
 	    );
 	  },
@@ -102,24 +266,24 @@ webpackJsonp_name_([1],{
 	  render: function render() {
 	    var _this2 = this;
 
-	    return React.createElement(
+	    return _react2.default.createElement(
 	      'div',
-	      { className: "gene-autocomplete " + (this.state.currentTransition === TRANSITIONS.underEdit || this.state.currentTransition === TRANSITIONS.fetchingSuggestion ? "underEdit" : this.state.currentTransition === TRANSITIONS.geneWasChosen ? "geneWasChosen" : "") },
-	      React.createElement('span', { tabIndex: -1, ref: function ref(span) {
+	      { className: "gene-autocomplete " + (this.state.currentTransition === TRANSITIONS.underEdit || this.state.currentTransition === TRANSITIONS.fetchingSuggestion ? "underEdit" : this.state.currentTransition === TRANSITIONS.standBy ? "standBy" : "") },
+	      _react2.default.createElement('span', { tabIndex: -1, ref: function ref(span) {
 	          _this2.dummySpan = span;
 	        } }),
-	      React.createElement(Autocomplete, {
+	      _react2.default.createElement(_reactAutocomplete2.default, {
 	        open: this.state.currentTransition === TRANSITIONS.underEdit || this.state.currentTransition === TRANSITIONS.fetchingSuggestion,
 	        onMenuVisibilityChange: function onMenuVisibilityChange() {},
 	        inputProps: { name: "Enter gene", id: "gene-autocomplete", type: "text" },
 	        value: this.state.value,
 	        items: this.state.currentSuggestions,
 	        getItemValue: function getItemValue(item) {
-	          return item.value;
+	          return item;
 	        },
 	        wrapperStyle: { display: "block" },
 	        onSelect: function onSelect(value, item) {
-	          _this2.setState({ value: value, currentSuggestions: [], currentTransition: TRANSITIONS.geneWasChosen }, function () {
+	          _this2.setState({ value: '', currentSuggestions: [], currentTransition: TRANSITIONS.standBy }, function () {
 	            _this2.dummySpan.focus();
 	            _this2.props.onGeneChosen(value);
 	          });
@@ -134,14 +298,14 @@ webpackJsonp_name_([1],{
 	          }
 	        },
 	        renderMenu: function renderMenu(items, value, style) {
-	          return React.createElement(
+	          return _react2.default.createElement(
 	            'div',
 	            { className: 'menu', style: {} },
-	            _this2._isTooShortToShowHints(value) ? false : _this2.state.currentTransition === TRANSITIONS.fetchingSuggestion ? React.createElement(
+	            _this2._isTooShortToShowHints(value) ? false : _this2.state.currentTransition === TRANSITIONS.fetchingSuggestion ? _react2.default.createElement(
 	              'div',
 	              { style: { padding: 6, float: "bottom" } },
 	              'Loading...'
-	            ) : React.createElement(
+	            ) : _react2.default.createElement(
 	              'div',
 	              null,
 	              items
@@ -158,16 +322,16 @@ webpackJsonp_name_([1],{
 
 /***/ },
 
-/***/ 456:
+/***/ 458:
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(457);
+	var content = __webpack_require__(459);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(459)(content, {});
+	var update = __webpack_require__(461)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -185,22 +349,22 @@ webpackJsonp_name_([1],{
 
 /***/ },
 
-/***/ 457:
+/***/ 459:
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(458)();
+	exports = module.exports = __webpack_require__(460)();
 	// imports
 
 
 	// module
-	exports.push([module.id, "\n.gene-autocomplete input {\n    text-overflow: ellipsis;\n    font-size: larger;\n    font-weight: bolder;\n    text-align: center;\n    color: #555;\n    background: #fff !important;\n    height: 2.4375rem;\n    width: 100%;\n    padding: 0.5rem;\n    border: 1px solid #cacaca;\n    margin: 0 0 1rem;\n    box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);\n}\n\n.gene-autocomplete.underEdit input {\n  color: #007c82;\n}\n\n.gene-autocomplete.geneWasChosen input {\n  color: #666;\n}\n\n.gene-autocomplete .menu {\n  background: #FFF none !important;\n  border-radius: 4px;\n  padding:0;\n}\n\n.gene-autocomplete .menu .menu-element {\n  cursor: pointer;\n  z-index: 600;\n  padding: 6px;\n  color: #007c82;\n}\n", ""]);
+	exports.push([module.id, ".list-with-autocomplete .list-element {\n  position:relative;\n  padding: 6px;\n  margin-top: 3px;\n  margin-bottom: 3px;\n  color:#007c82;\n  background: gainsboro;\n  font-size: larger;\n  font-weight: bolder;\n  text-align: center;\n  text-overflow: ellipsis;\n}\n\n\n.gene-autocomplete input {\n    text-overflow: ellipsis;\n    font-size: larger;\n    font-weight: bolder;\n    text-align: center;\n    color: #555;\n    background: #fff !important;\n    height: 2.4375rem;\n    width: 100%;\n    padding: 0.5rem;\n    border: 1px solid #cacaca;\n    margin: 0 0 1rem;\n    box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);\n}\n\n.gene-autocomplete.underEdit input {\n  color: #007c82;\n}\n\n.gene-autocomplete.geneWasChosen input {\n  color: #666;\n}\n\n.gene-autocomplete .menu {\n  background: #FFF none !important;\n  border-radius: 4px;\n  padding:0;\n}\n\n.gene-autocomplete .menu .menu-element {\n  cursor: pointer;\n  z-index: 600;\n  padding: 6px;\n  color: #007c82;\n}\n", ""]);
 
 	// exports
 
 
 /***/ },
 
-/***/ 458:
+/***/ 460:
 /***/ function(module, exports) {
 
 	/*
@@ -257,7 +421,7 @@ webpackJsonp_name_([1],{
 
 /***/ },
 
-/***/ 459:
+/***/ 461:
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
