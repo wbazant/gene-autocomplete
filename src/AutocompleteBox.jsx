@@ -1,26 +1,24 @@
-
-const React = require('react')
-const Autocomplete = require('react-autocomplete')
+import React from 'react'
+import Autocomplete from 'react-autocomplete'
 require("./gene-autocomplete.css")
 
 const TRANSITIONS = {
-  pristine: 1,
+  standBy: 1,
   underEdit: 2,
-  fetchingSuggestion: 3,
-  geneWasChosen: 4
+  fetchingSuggestion: 3
 }
 
 const AutocompleteBox = React.createClass({
   propTypes: {
     suggesterUrlTemplate : React.PropTypes.string.isRequired,
     onGeneChosen: React.PropTypes.func.isRequired,
-    value: React.PropTypes.string
+    valuesToSkipInSuggestions: React.PropTypes.arrayOf(React.PropTypes.string.isRequired).isRequired
   },
   getInitialState () {
     const value = this.props.value || ''
     return {
-      value,
-      currentTransition: value ? TRANSITIONS.geneWasChosen : TRANSITIONS.pristine,
+      value: '',
+      currentTransition: TRANSITIONS.standBy,
       currentSuggestions: []
     }
   },
@@ -36,7 +34,23 @@ const AutocompleteBox = React.createClass({
         } else {
           results = JSON.parse(xhr.responseText);
         }
-        this.setState({ currentSuggestions: results, currentTransition: TRANSITIONS.underEdit})
+        this.setState(
+          { currentSuggestions:
+              results
+              .map((result)=> (
+                /* The server also produces categories
+                   skip them since the query is the same
+                */
+                result.value
+              ))
+              .filter((item)=> (
+                  this.props.valuesToSkipInSuggestions.indexOf(item) === -1
+              ))
+              .filter((item,ix,self)=>(
+                self.indexOf(item)==ix
+              ))
+          ,
+            currentTransition: TRANSITIONS.underEdit})
       };
       httpRequest.open('GET', this.props.suggesterUrlTemplate.replace(/\{0\}/, value), true);
       httpRequest.responseType = 'json';
@@ -48,17 +62,12 @@ const AutocompleteBox = React.createClass({
       <div
         className={"menu-element"}
         style={isHighlighted ? {"background": "#007c82", "color": "white"} : {}}
-        key={item.value+""+item.category}
-        id={item.value}
+        key={item}
+        id={item}
       >
       <span>
-        {item.value}
+        {item}
       </span>
-      {item.category &&
-        <i style={{float:"right"}}>
-          {item.category}
-        </i>
-      }
       </div>
     )
   },
@@ -73,8 +82,8 @@ const AutocompleteBox = React.createClass({
           this.state.currentTransition === TRANSITIONS.underEdit
           || this.state.currentTransition === TRANSITIONS.fetchingSuggestion
           ? "underEdit"
-          : this.state.currentTransition === TRANSITIONS.geneWasChosen
-            ? "geneWasChosen"
+          : this.state.currentTransition === TRANSITIONS.standBy
+            ? "standBy"
             : "")}>
         <span tabIndex={-1} ref={(span) => {this.dummySpan=span}} />
         <Autocomplete
@@ -84,10 +93,10 @@ const AutocompleteBox = React.createClass({
           inputProps={{name: "Enter gene", id: "gene-autocomplete", type:"text"}}
           value={this.state.value}
           items={this.state.currentSuggestions}
-          getItemValue={(item) => item.value}
+          getItemValue={(item) => item}
           wrapperStyle={{display:"block"}}
           onSelect={(value, item) => {
-            this.setState({ value, currentSuggestions: [] , currentTransition: TRANSITIONS.geneWasChosen}, () => {
+            this.setState({ value:'', currentSuggestions: [] , currentTransition: TRANSITIONS.standBy}, () => {
               this.dummySpan.focus()
               this.props.onGeneChosen(value)
             })
