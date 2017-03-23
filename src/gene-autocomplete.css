@@ -1,3 +1,16 @@
+.list-with-autocomplete .list-element {
+  position:relative;
+  padding: 6px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  color:#007c82;
+  background: gainsboro;
+  font-size: larger;
+  font-weight: bolder;
+  text-align: center;
+  text-overflow: ellipsis;
+}
+
 
 .gene-autocomplete input {
     text-overflow: ellipsis;
