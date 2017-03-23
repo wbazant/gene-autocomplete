@@ -17,7 +17,7 @@ const ListWithAutocomplete = ({
             {value}
           </span>
           <button
-              style={{fontSize:"1.5rem"}}
+              style={{fontSize:"1.5rem", top:"0.25rem"}}
               className="close-button small"
               aria-label="Close alert"
               type="button"
