@@ -1,1 +1,1 @@
-module.exports = require(`./src/ListWithAutocomplete.jsx`);
+module.exports = require('./src/ListWithAutocomplete.jsx');

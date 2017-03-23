@@ -5,10 +5,8 @@
   margin-bottom: 3px;
   color:#007c82;
   background: gainsboro;
-  font-size: larger;
-  font-weight: bolder;
   text-align: center;
-  text-overflow: ellipsis;
+  word-wrap: break-word;
 }
 
 
@@ -29,10 +27,6 @@
 
 .gene-autocomplete.underEdit input {
   color: #007c82;
-}
-
-.gene-autocomplete.geneWasChosen input {
-  color: #666;
 }
 
 .gene-autocomplete .menu {
