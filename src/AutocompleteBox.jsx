@@ -3,6 +3,13 @@ const React = require('react')
 const Autocomplete = require('react-autocomplete')
 require("./gene-autocomplete.css")
 
+const TRANSITIONS = {
+  pristine: 1,
+  underEdit: 2,
+  fetchingSuggestion: 3,
+  geneWasChosen: 4
+}
+
 const AutocompleteBox = React.createClass({
   propTypes: {
     suggesterUrlTemplate : React.PropTypes.string.isRequired,
@@ -10,15 +17,16 @@ const AutocompleteBox = React.createClass({
     value: React.PropTypes.string
   },
   getInitialState () {
+    const value = this.props.value || ''
     return {
-      value: this.props.value || '',
-      currentSuggestions: [],
-      loading: false
+      value,
+      currentTransition: value ? TRANSITIONS.geneWasChosen : TRANSITIONS.pristine,
+      currentSuggestions: []
     }
   },
 
   _requestSuggestions (value) {
-    if(this.state.loading){
+    if(this.state.currentTransition === TRANSITIONS.fetchingSuggestion){
       let httpRequest = new XMLHttpRequest();
       httpRequest.onload = (e) => {
         const xhr = e.target;
@@ -28,7 +36,7 @@ const AutocompleteBox = React.createClass({
         } else {
           results = JSON.parse(xhr.responseText);
         }
-        this.setState({ currentSuggestions: results, loading: false })
+        this.setState({ currentSuggestions: results, currentTransition: TRANSITIONS.underEdit})
       };
       httpRequest.open('GET', this.props.suggesterUrlTemplate.replace(/\{0\}/, value), true);
       httpRequest.responseType = 'json';
@@ -39,7 +47,7 @@ const AutocompleteBox = React.createClass({
     return (
       <div
         className={"menu-element"}
-        style={isHighlighted ? {"background": "gainsboro", "color": "black"} : {}}
+        style={isHighlighted ? {"background": "#007c82", "color": "white"} : {}}
         key={item.value+""+item.category}
         id={item.value}
       >
@@ -61,21 +69,34 @@ const AutocompleteBox = React.createClass({
 
   render () {
     return (
-      <div className="gene-autocomplete">
+      <div className={"gene-autocomplete "+(
+          this.state.currentTransition === TRANSITIONS.underEdit
+          || this.state.currentTransition === TRANSITIONS.fetchingSuggestion
+          ? "underEdit"
+          : this.state.currentTransition === TRANSITIONS.geneWasChosen
+            ? "geneWasChosen"
+            : "")}>
+        <span tabIndex={-1} ref={(span) => {this.dummySpan=span}} />
         <Autocomplete
-          inputProps={{name: "Enter gene", id: "gene-autocomplete"}}
+          open={this.state.currentTransition === TRANSITIONS.underEdit
+                || this.state.currentTransition === TRANSITIONS.fetchingSuggestion}
+          onMenuVisibilityChange={()=>{}}
+          inputProps={{name: "Enter gene", id: "gene-autocomplete", type:"text"}}
           value={this.state.value}
           items={this.state.currentSuggestions}
           getItemValue={(item) => item.value}
+          wrapperStyle={{display:"block"}}
           onSelect={(value, item) => {
-            this.setState({ value, currentSuggestions: [] })
-            this.props.onGeneChosen(this.state.value)
+            this.setState({ value, currentSuggestions: [] , currentTransition: TRANSITIONS.geneWasChosen}, () => {
+              this.dummySpan.focus()
+              this.props.onGeneChosen(value)
+            })
           }}
           onChange={(event, value) => {
             if(this._isTooShortToShowHints(value)){
-              this.setState({value: value, loading: false})
+              this.setState({value: value, currentTransition: TRANSITIONS.underEdit})
             } else {
-              this.setState({value: value, loading: true}, () => {
+              this.setState({value: value, currentTransition: TRANSITIONS.fetchingSuggestion}, () => {
                 this._requestSuggestions(value)
               })
             }
@@ -85,7 +106,7 @@ const AutocompleteBox = React.createClass({
              <div className="menu" style={{ }}>
                {this._isTooShortToShowHints(value)
                 ? false
-                : this.state.loading
+                : this.state.currentTransition === TRANSITIONS.fetchingSuggestion
                   ? (
                     <div style={{padding: 6, float: "bottom"}}>
                       Loading...
